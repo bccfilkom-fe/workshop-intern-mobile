@@ -15,7 +15,7 @@ class TextFields extends StatefulWidget {
   final TextInputType textInputType;
 
   @override
-  _TextFieldsState createState() => _TextFieldsState();
+  State<TextFields> createState() => _TextFieldsState();
 }
 
 class _TextFieldsState extends State<TextFields> {

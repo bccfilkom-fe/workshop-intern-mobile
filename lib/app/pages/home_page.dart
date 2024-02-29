@@ -1,3 +1,4 @@
+import 'package:fe_bccintern24/app/models/tweet.dart';
 import 'package:fe_bccintern24/app/pages/detail_page.dart';
 import 'package:fe_bccintern24/app/pages/widgets/buttons.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<Map<String, String>> dummyData = [];
+  //TODO: buat fungsi initstate & injeksi fungsi reat tweet cubit
 
   @override
   Widget build(BuildContext context) {
@@ -26,54 +27,65 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
-              isDismissible: true,
-              isScrollControlled: true,
-              context: context,
-              builder: (_) {
-                return SingleChildScrollView(
-                  child: SizedBox(
-                    height: 370 + MediaQuery.of(context).viewInsets.bottom,
-                    width: width,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        top: 24,
-                        left: 16,
-                        right: 16,
-                        bottom: MediaQuery.of(context).viewInsets.bottom + 32,
-                      ),
-                      child: Column(
-                        children: [
-                          TextFields(
-                              controller: judulController,
-                              text: "Judul",
-                              textInputType: TextInputType.name),
-                          const SizedBox(
-                            height: 12,
-                          ),
-                          TextFields(
-                              controller: deskripsiController,
-                              text: "Deskripsi",
-                              textInputType: TextInputType.name),
-                          const Expanded(child: SizedBox()),
-                          Buttons(
-                              width: width,
-                              text: "Posting",
-                              onClicked: () {
-                                setState(() {
-                                  dummyData.add({
+            isDismissible: true,
+            isScrollControlled: true,
+            context: context,
+            builder: (_) {
+              return SingleChildScrollView(
+                child: SizedBox(
+                  height: 370 + MediaQuery.of(context).viewInsets.bottom,
+                  width: width,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      top: 24,
+                      left: 16,
+                      right: 16,
+                      bottom: MediaQuery.of(context).viewInsets.bottom + 32,
+                    ),
+                    child: Column(
+                      children: [
+                        TextFields(
+                          controller: judulController,
+                          text: "Judul",
+                          textInputType: TextInputType.name,
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        TextFields(
+                          controller: deskripsiController,
+                          text: "Deskripsi",
+                          textInputType: TextInputType.name,
+                        ),
+                        const Expanded(
+                          child: SizedBox(),
+                        ),
+                        Buttons(
+                          width: width,
+                          text: "Posting",
+                          onClicked: () {
+                            //TODO: injeksi fungsi cubit create tweet
+                            setState(
+                              () {
+                                dummyData.add(
+                                  {
                                     "id": "@3",
                                     "title": judulController.text,
                                     "description": deskripsiController.text,
-                                  });
-                                });
-                                Navigator.pop(context);
-                              })
-                        ],
-                      ),
+                                  },
+                                );
+                              },
+                            );
+                            Navigator.pop(context);
+                          },
+                        )
+                      ],
                     ),
                   ),
-                );
-              });
+                ),
+              );
+            },
+          );
         },
         backgroundColor: ColorStyles.secondary,
         shape: const CircleBorder(),
@@ -93,10 +105,12 @@ class _HomePageState extends State<HomePage> {
             height: 123,
             width: width,
             decoration: BoxDecoration(
-                color: ColorStyles.primary,
-                borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(16),
-                    bottomRight: Radius.circular(16))),
+              color: ColorStyles.primary,
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(16),
+                bottomRight: Radius.circular(16),
+              ),
+            ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
@@ -108,16 +122,18 @@ class _HomePageState extends State<HomePage> {
                   Text(
                     "Hai Semua",
                     style: GoogleFonts.poppins(
-                        color: ColorStyles.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600),
+                      color: ColorStyles.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   Text(
                     "Selamat datang di Sky",
                     style: GoogleFonts.poppins(
-                        color: ColorStyles.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400),
+                      color: ColorStyles.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                    ),
                   )
                 ],
               ),
@@ -126,7 +142,10 @@ class _HomePageState extends State<HomePage> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: ListTweet(dummyData: dummyData, width: width),
+              child: ListTweet(
+                dummyData: dummyData,
+                width: width,
+              ),
             ),
           )
         ],
@@ -158,22 +177,27 @@ class _ListTweetState extends State<ListTweet> {
         return InkWell(
           onTap: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) => DetailPage(
-                          data: widget.dummyData[index],
-                          delete: (deletedData) {
-                            setState(() {
-                              widget.dummyData.remove(deletedData);
-                            });
-                          },
-                        )));
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => DetailPage(
+                  data: widget.dummyData[index],
+                  delete: (deletedData) {
+                    setState(() {
+                      widget.dummyData.remove(deletedData);
+                    });
+                  },
+                ),
+              ),
+            );
           },
           child: Container(
             width: widget.width,
             decoration: BoxDecoration(
-                color: ColorStyles.softGrey,
-                borderRadius: const BorderRadius.all(Radius.circular(8))),
+              color: ColorStyles.softGrey,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(8),
+              ),
+            ),
             margin: const EdgeInsets.only(bottom: 8),
             child: Padding(
               padding: const EdgeInsets.all(8),
@@ -183,9 +207,10 @@ class _ListTweetState extends State<ListTweet> {
                   Text(
                     widget.dummyData[index]['id']!,
                     style: GoogleFonts.poppins(
-                        color: ColorStyles.black,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w400),
+                      color: ColorStyles.black,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                   const SizedBox(
                     height: 12,
@@ -193,9 +218,10 @@ class _ListTweetState extends State<ListTweet> {
                   Text(
                     widget.dummyData[index]['title']!,
                     style: GoogleFonts.poppins(
-                        color: ColorStyles.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400),
+                      color: ColorStyles.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                   const SizedBox(
                     height: 8,
@@ -203,9 +229,10 @@ class _ListTweetState extends State<ListTweet> {
                   Text(
                     widget.dummyData[index]['description']!,
                     style: GoogleFonts.poppins(
-                        color: ColorStyles.black,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400),
+                      color: ColorStyles.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
                   )
                 ],
               ),

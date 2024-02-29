@@ -24,79 +24,100 @@ class SignupPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: SingleChildScrollView(
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const SizedBox(
-              height: 155,
-            ),
-            Center(child: svg),
-            const SizedBox(
-              height: 60,
-            ),
-            Text(
-              "Daftar",
-              style: GoogleFonts.poppins(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 155,
+              ),
+              Center(
+                child: svg,
+              ),
+              const SizedBox(
+                height: 60,
+              ),
+              Text(
+                "Daftar",
+                style: GoogleFonts.poppins(
                   color: ColorStyles.primary,
                   fontSize: 24,
-                  fontWeight: FontWeight.w600),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Text(
-              "Buat Akun Anda!",
-              style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Text(
+                "Buat Akun Anda!",
+                style: GoogleFonts.poppins(
                   color: ColorStyles.darkGrey,
                   fontSize: 15,
-                  fontWeight: FontWeight.w400),
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            TextFields(
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              TextFields(
                 controller: emailController,
                 text: "Email",
-                textInputType: TextInputType.emailAddress),
-            const SizedBox(
-              height: 12,
-            ),
-            TextFields(
+                textInputType: TextInputType.emailAddress,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              TextFields(
                 controller: passwordController,
                 text: "Password",
-                textInputType: TextInputType.name),
-            const SizedBox(
-              height: 64,
-            ),
-            Buttons(text: "Daftar", width: width, onClicked: () {}),
-            const SizedBox(
-              height: 12,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RichText(
+                textInputType: TextInputType.name,
+              ),
+              const SizedBox(
+                height: 64,
+              ),
+              Buttons(
+                text: "Daftar",
+                width: width,
+                onClicked: () {
+                  //TODO: injeksi fungsi cubit register
+                },
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RichText(
                     text: TextSpan(
-                        text: "Sudah ada akun?",
-                        style: GoogleFonts.poppins(
-                            color: ColorStyles.darkGrey,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400),
-                        children: [
-                      TextSpan(
+                      text: "Sudah ada akun?",
+                      style: GoogleFonts.poppins(
+                        color: ColorStyles.darkGrey,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      children: [
+                        TextSpan(
                           text: " Masuk",
                           style: GoogleFonts.poppins(
-                              color: ColorStyles.primary,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500),
+                            color: ColorStyles.primary,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () => Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginPage()))),
-                    ])),
-              ],
-            )
-          ]),
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LoginPage(),
+                                  ),
+                                ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

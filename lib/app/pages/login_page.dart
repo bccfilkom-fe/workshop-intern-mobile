@@ -27,71 +27,77 @@ class LoginPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: SingleChildScrollView(
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const SizedBox(
-              height: 155,
-            ),
-            Center(child: svg),
-            const SizedBox(
-              height: 60,
-            ),
-            Text(
-              "Masuk",
-              style: GoogleFonts.poppins(
-                  color: ColorStyles.primary,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Text(
-              "Selamat Datang Kembali!",
-              style: GoogleFonts.poppins(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 155,
+              ),
+              Center(child: svg),
+              const SizedBox(
+                height: 60,
+              ),
+              Text(
+                "Masuk",
+                style: GoogleFonts.poppins(
+                    color: ColorStyles.primary,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Text(
+                "Selamat Datang Kembali!",
+                style: GoogleFonts.poppins(
                   color: ColorStyles.darkGrey,
                   fontSize: 15,
-                  fontWeight: FontWeight.w400),
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            TextFields(
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              TextFields(
                 controller: emailController,
                 text: "Email",
-                textInputType: TextInputType.emailAddress),
-            const SizedBox(
-              height: 12,
-            ),
-            TextFields(
+                textInputType: TextInputType.emailAddress,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              TextFields(
                 controller: passwordController,
                 text: "Password",
-                textInputType: TextInputType.name),
-            const SizedBox(
-              height: 64,
-            ),
-            Buttons(
+                textInputType: TextInputType.name,
+              ),
+              const SizedBox(
+                height: 64,
+              ),
+              Buttons(
                 text: "Masuk",
                 width: width,
                 onClicked: () {
+                  //TODO: injeksi fungsi cubit login
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (_) => const HomePage()));
-                }),
-            const SizedBox(
-              height: 12,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RichText(
+                },
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RichText(
                     text: TextSpan(
-                        text: "Belum ada akun?",
-                        style: GoogleFonts.poppins(
-                            color: ColorStyles.darkGrey,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400),
-                        children: [
-                      TextSpan(
+                      text: "Belum ada akun?",
+                      style: GoogleFonts.poppins(
+                          color: ColorStyles.darkGrey,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400),
+                      children: [
+                        TextSpan(
                           text: " Daftar",
                           style: GoogleFonts.poppins(
                               color: ColorStyles.primary,
@@ -99,13 +105,19 @@ class LoginPage extends StatelessWidget {
                               fontWeight: FontWeight.w500),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () => Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SignupPage()))),
-                    ])),
-              ],
-            ),
-          ]),
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SignupPage(),
+                                  ),
+                                ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

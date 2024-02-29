@@ -9,8 +9,11 @@ class DetailPage extends StatefulWidget {
   final Map<String, String> data;
   final Function(Map<String, String>) delete;
 
-  const DetailPage({Key? key, required this.data, required this.delete})
-      : super(key: key);
+  const DetailPage({
+    Key? key,
+    required this.data,
+    required this.delete,
+  }) : super(key: key);
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -29,10 +32,12 @@ class _DetailPageState extends State<DetailPage> {
             height: 123,
             width: width,
             decoration: BoxDecoration(
-                color: ColorStyles.primary,
-                borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(16),
-                    bottomRight: Radius.circular(16))),
+              color: ColorStyles.primary,
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(16),
+                bottomRight: Radius.circular(16),
+              ),
+            ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
@@ -144,6 +149,7 @@ class _DetailPageState extends State<DetailPage> {
                             actions: [
                               TextButton(
                                 onPressed: () {
+                                  //TODO: injeksi fungsi delete tweet cubit
                                   widget.delete(widget
                                       .data); //callback delete saat tombol ditekan
                                   Navigator.push(
@@ -217,6 +223,7 @@ class _DetailPageState extends State<DetailPage> {
                                         Buttons(
                                           text: "Ubah",
                                           onClicked: () {
+                                            //TODO: injeksi fungsi update tweet cubit
                                             setState(() {
                                               widget.data['title'] =
                                                   judulController.text;
