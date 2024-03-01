@@ -1,7 +1,6 @@
+import 'dart:async';
 import 'package:fe_bccintern24/app/styles/color_styles.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
-
 import 'login_page.dart';
 
 class SplashPage extends StatefulWidget {
@@ -18,7 +17,7 @@ class _SplashPageState extends State<SplashPage> {
 
     Timer(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => LoginPage()));
+          context, MaterialPageRoute(builder: (context) => const LoginPage()));
     });
   }
 

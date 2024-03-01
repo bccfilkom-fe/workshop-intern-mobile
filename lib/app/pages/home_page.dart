@@ -3,6 +3,7 @@ import 'package:fe_bccintern24/app/pages/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../data/models/tweet.dart';
 import '../styles/color_styles.dart';
 import 'widgets/text_fields.dart';
 
@@ -14,12 +15,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<Map<String, String>> dummyData = [];
-
   @override
   Widget build(BuildContext context) {
     TextEditingController judulController = TextEditingController();
     TextEditingController deskripsiController = TextEditingController();
+
+    bool isClickable = false;
+
+    void checkClickable() {
+      final judul = judulController.text.trim();
+      final deskripsi = deskripsiController.text.trim();
+      setState(() {
+        isClickable = judul.isNotEmpty && deskripsi.isNotEmpty;
+      });
+    }
+
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -44,20 +54,33 @@ class _HomePageState extends State<HomePage> {
                       child: Column(
                         children: [
                           TextFields(
-                              controller: judulController,
-                              text: "Judul",
-                              textInputType: TextInputType.name),
+                            controller: judulController,
+                            text: "Judul",
+                            textInputType: TextInputType.name,
+                            onChanged: (text) {
+                              setState(() {
+                                checkClickable();
+                              });
+                            },
+                          ),
                           const SizedBox(
                             height: 12,
                           ),
                           TextFields(
-                              controller: deskripsiController,
-                              text: "Deskripsi",
-                              textInputType: TextInputType.name),
+                            controller: deskripsiController,
+                            text: "Deskripsi",
+                            textInputType: TextInputType.name,
+                            onChanged: (text) {
+                              setState(() {
+                                checkClickable();
+                              });
+                            },
+                          ),
                           const Expanded(child: SizedBox()),
                           Buttons(
                               width: width,
                               text: "Posting",
+                              isClickable: isClickable,
                               onClicked: () {
                                 setState(() {
                                   dummyData.add({

@@ -22,6 +22,17 @@ class _DetailPageState extends State<DetailPage> {
     var width = MediaQuery.of(context).size.width;
     TextEditingController judulController = TextEditingController();
     TextEditingController deskripsiController = TextEditingController();
+
+    bool isClickable = false;
+
+    void checkClickable() {
+      final judul = judulController.text.trim();
+      final deskripsi = deskripsiController.text.trim();
+      setState(() {
+        isClickable = judul.isNotEmpty && deskripsi.isNotEmpty;
+      });
+    }
+
     return Scaffold(
       body: Column(
         children: [
@@ -203,19 +214,32 @@ class _DetailPageState extends State<DetailPage> {
                                     child: Column(
                                       children: [
                                         TextFields(
-                                            controller: judulController,
-                                            text: "Judul",
-                                            textInputType: TextInputType.name),
+                                          controller: judulController,
+                                          text: "Judul",
+                                          textInputType: TextInputType.name,
+                                          onChanged: (text) {
+                                            setState(() {
+                                              checkClickable();
+                                            });
+                                          },
+                                        ),
                                         const SizedBox(
                                           height: 12,
                                         ),
                                         TextFields(
-                                            controller: deskripsiController,
-                                            text: "Deskripsi",
-                                            textInputType: TextInputType.name),
+                                          controller: deskripsiController,
+                                          text: "Deskripsi",
+                                          textInputType: TextInputType.name,
+                                          onChanged: (text) {
+                                            setState(() {
+                                              checkClickable();
+                                            });
+                                          },
+                                        ),
                                         const Expanded(child: SizedBox()),
                                         Buttons(
                                           text: "Ubah",
+                                          isClickable: isClickable,
                                           onClicked: () {
                                             setState(() {
                                               widget.data['title'] =
