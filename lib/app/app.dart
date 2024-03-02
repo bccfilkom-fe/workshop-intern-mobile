@@ -1,4 +1,5 @@
-import 'package:fe_bccintern24/app/pages/cubit/auth/auth_cubit.dart';
+import 'package:fe_bccintern24/app/cubit/auth/auth_cubit.dart';
+import 'package:fe_bccintern24/app/cubit/tweet/tweet_cubit.dart';
 import 'package:fe_bccintern24/app/pages/home_page.dart';
 import 'package:fe_bccintern24/app/pages/login_page.dart';
 import 'package:flutter/material.dart';
@@ -11,10 +12,10 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => AuthCubit(),
+          create: (context) => AuthCubit()..isHasLogin(),
         ),
         BlocProvider(
-          create: (context) => AuthCubit()..isHasLogin(),
+          create: (context) => TweetCubit(),
         ),
       ],
       child: MaterialApp(

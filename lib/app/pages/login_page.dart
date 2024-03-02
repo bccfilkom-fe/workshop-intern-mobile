@@ -1,6 +1,7 @@
-import 'package:fe_bccintern24/app/pages/cubit/auth/auth_cubit.dart';
+import 'package:fe_bccintern24/app/cubit/auth/auth_cubit.dart';
 import 'package:fe_bccintern24/app/pages/home_page.dart';
 import 'package:fe_bccintern24/app/pages/widgets/buttons.dart';
+import 'package:fe_bccintern24/app/pages/widgets/snackbar.dart';
 import 'package:fe_bccintern24/app/pages/widgets/text_fields.dart';
 import 'package:fe_bccintern24/app/styles/color_styles.dart';
 import 'package:flutter/gestures.dart';
@@ -49,17 +50,9 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (_) => const HomePage()));
           } else if (state is AuthError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.error),
-                duration: const Duration(milliseconds: 2500),
-                action: SnackBarAction(
-                  label: "OK",
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                  },
-                ),
-              ),
+            showSnackBarWidget(
+              context,
+              state.error,
             );
           }
         },

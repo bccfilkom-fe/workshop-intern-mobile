@@ -1,6 +1,10 @@
+import 'package:fe_bccintern24/app/cubit/tweet/tweet_cubit.dart';
 import 'package:fe_bccintern24/app/pages/detail_page.dart';
 import 'package:fe_bccintern24/app/pages/widgets/buttons.dart';
+import 'package:fe_bccintern24/app/pages/widgets/loading.dart';
+import 'package:fe_bccintern24/app/pages/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../data/models/tweet.dart';
@@ -15,6 +19,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    context.read<TweetCubit>().getAllTweet();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     TextEditingController judulController = TextEditingController();
@@ -82,13 +92,9 @@ class _HomePageState extends State<HomePage> {
                               text: "Posting",
                               isClickable: isClickable,
                               onClicked: () {
-                                setState(() {
-                                  dummyData.add({
-                                    "id": "@3",
-                                    "title": judulController.text,
-                                    "description": deskripsiController.text,
-                                  });
-                                });
+                                context.read<TweetCubit>().createTweet(
+                                    judulController.text,
+                                    deskripsiController.text);
                                 Navigator.pop(context);
                               })
                         ],
@@ -146,11 +152,33 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: ListTweet(dummyData: dummyData, width: width),
-            ),
+          BlocConsumer<TweetCubit, TweetState>(
+            listener: (context, state) {
+              if (state is GetTweetEror) {
+                showSnackBarWidget(context, state.eror);
+              } else if (state is CreateTweetEror) {
+                showSnackBarWidget(context, state.eror);
+              } else if (state is CreateTweetSuccess) {
+                context.read<TweetCubit>().getAllTweet();
+              }
+            },
+            builder: (context, state) {
+              if (state is GetTweetLoading ||
+                  state is CreateTweetLoading ||
+                  state is DeleteTweetLoading) {
+                return const Loading();
+              } else if (state is GetTweetSuccess) {
+                return Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: ListTweet(dummyData: state.listTweet, width: width),
+                  ),
+                );
+              }
+              return const Center(
+                child: Text("Belum ada tweet nih"),
+              );
+            },
           )
         ],
       ),
@@ -165,7 +193,7 @@ class ListTweet extends StatefulWidget {
     required this.width,
   });
 
-  final List<Map<String, String>> dummyData;
+  final List<TweetModel> dummyData;
   final double width;
 
   @override
@@ -181,16 +209,12 @@ class _ListTweetState extends State<ListTweet> {
         return InkWell(
           onTap: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) => DetailPage(
-                          data: widget.dummyData[index],
-                          delete: (deletedData) {
-                            setState(() {
-                              widget.dummyData.remove(deletedData);
-                            });
-                          },
-                        )));
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    DetailPage(data: widget.dummyData[index]),
+              ),
+            );
           },
           child: Container(
             width: widget.width,
@@ -204,7 +228,7 @@ class _ListTweetState extends State<ListTweet> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.dummyData[index]['id']!,
+                    widget.dummyData[index].id,
                     style: GoogleFonts.poppins(
                         color: ColorStyles.black,
                         fontSize: 11,
@@ -214,7 +238,7 @@ class _ListTweetState extends State<ListTweet> {
                     height: 12,
                   ),
                   Text(
-                    widget.dummyData[index]['title']!,
+                    widget.dummyData[index].title,
                     style: GoogleFonts.poppins(
                         color: ColorStyles.black,
                         fontSize: 16,
@@ -224,7 +248,7 @@ class _ListTweetState extends State<ListTweet> {
                     height: 8,
                   ),
                   Text(
-                    widget.dummyData[index]['description']!,
+                    widget.dummyData[index].description,
                     style: GoogleFonts.poppins(
                         color: ColorStyles.black,
                         fontSize: 14,
